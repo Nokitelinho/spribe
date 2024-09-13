@@ -51,6 +51,10 @@ The docker-compose.yml file will create a PostgreSQL instance that the Spring Bo
 
 ## Run the Application
 
+From SpringBoot run src/main/java/com/spribe/App.java file.
+
+OR
+
 Run the application using Maven:
 
 ```bash
