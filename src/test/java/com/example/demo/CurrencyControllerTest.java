@@ -26,9 +26,11 @@ class CurrencyControllerTest {
     public void testCacheableGetExchangeRate() {
 
         // given
-        when(currencyService.getExchangeRate("GBP")).thenReturn(List.of(new ExchangeRate()));
+        var exchangeRateList = List.of(new ExchangeRate());
 
         // when
+        when(currencyService.getExchangeRate("GBP")).thenReturn(exchangeRateList);
+
         currencyController.getExchangeRate("GBP");
         currencyController.getExchangeRate("GBP");
 
