@@ -108,3 +108,29 @@ This project uses Liquibase for managing database migrations. Migration scripts 
 	}
 }
 ```
+
+## Retry Mechanism with `@Retryable`
+
+This project includes a retry mechanism using Spring's `@Retryable` annotation, allowing certain methods to retry upon encountering specific exceptions. This is particularly useful when making HTTP calls to external services that might experience intermittent failures.
+
+### Example Code with `@Retryable`
+
+The following is an example of the `WebClientService` class, which utilizes the `@Retryable` annotation to retry the HTTP request when a `HttpClientErrorException` occurs (typically a 5xx server error). The method will retry up to 3 times with a delay of 2 seconds between attempts.
+
+```java
+@Service
+@RequiredArgsConstructor
+public class WebClientService {
+    private final RestTemplate restTemplate;
+
+    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+
+    @Retryable(
+            value = { HttpClientErrorException.class }, // Retry on server errors (5xx)
+            maxAttempts = 3, // Retry up to 3 times
+            backoff = @Backoff(delay = 2000) // Wait for 2 seconds between retries
+    )
+    public CurrencyDTO fetchCurrencyData(String requestUrl) {
+        log.info("Entering WebClientService fetchCurrencyData - {}", requestUrl);
+        .....
+```
