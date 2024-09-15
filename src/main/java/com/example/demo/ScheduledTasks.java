@@ -32,7 +32,7 @@ public class ScheduledTasks {
 
         currencyList.forEach(currency -> {
             var requestUrl = exchangeRateRequestUrl.construct(currency.getBaseCurrency());
-            var currencyDTO = webClientService.fetchCurrencyData(requestUrl);
+            var currencyDTO = webClientService.callExternalService(requestUrl);
 
             if (Objects.nonNull(currencyDTO)) {
                 currencyService.deleteCurrency(currency);

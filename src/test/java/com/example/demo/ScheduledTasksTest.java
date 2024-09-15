@@ -50,7 +50,7 @@ class ScheduledTasksTest {
         // when
         when(currencyService.getAllCurrencies()).thenReturn(List.of(populateCurrency()));
         when(exchangeRateRequestUrl.construct(anyString())).thenReturn("http://example.com");
-        when(webClientService.fetchCurrencyData(anyString())).thenReturn(currencyDTO);
+        when(webClientService.callExternalService(anyString())).thenReturn(currencyDTO);
 
         var result = scheduledTasks.updateCurrencyData();
         var currency = result.iterator().next();
@@ -62,7 +62,7 @@ class ScheduledTasksTest {
         verify(currencyService, times(1)).getAllCurrencies();
         verify(currencyService, times(1)).deleteCurrency(currency);
         verify(currencyService, times(1)).addCurrency(currencyDTO);
-        verify(webClientService, times(1)).fetchCurrencyData(anyString());
+        verify(webClientService, times(1)).callExternalService(anyString());
 
     }
 

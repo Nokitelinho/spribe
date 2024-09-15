@@ -19,13 +19,13 @@ import static org.mockito.Mockito.*;
 class WebClientServiceTest {
 
     @InjectMocks
-    WebClientService webClientService;
-
-    @Mock
-    private RestTemplate restTemplate;
+    private WebClientService webClientService;
 
     @Mock
     private ExchangeRateRequestUrl exchangeRateRequestUrl;
+
+    @Mock
+    private RestTemplate restTemplate;
 
     private final String baseCurrency = "EUR";
 
@@ -49,7 +49,7 @@ class WebClientServiceTest {
         when(restTemplate.getForEntity(requestUrl, CurrencyDTO.class))
                 .thenReturn(new ResponseEntity<>(currencyDTO, HttpStatus.OK));
 
-        var result = webClientService.fetchCurrencyData(requestUrl);
+        var result = webClientService.callExternalService(requestUrl);
 
         // then
         assertThat(result).isEqualTo(currencyDTO);
@@ -68,7 +68,7 @@ class WebClientServiceTest {
 
         // then
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> webClientService.fetchCurrencyData(requestUrl))
+                .isThrownBy(() -> webClientService.callExternalService(requestUrl))
                 .withMessageContaining("An error occurred while fetching the data");
         verify(restTemplate, times(1)).getForEntity(requestUrl, CurrencyDTO.class);
     }
@@ -86,7 +86,7 @@ class WebClientServiceTest {
 
         // then
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> webClientService.fetchCurrencyData(requestUrl))
+                .isThrownBy(() -> webClientService.callExternalService(requestUrl))
                 .withMessageContaining("An error occurred while fetching the data");
         verify(restTemplate, times(1)).getForEntity(requestUrl, CurrencyDTO.class);
     }

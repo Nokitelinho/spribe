@@ -44,6 +44,6 @@ public class CurrencyController {
     ) {
         var requestUrl = exchangeRateRequestUrl.construct(currencyCode);
 
-        return webClient.fetchCurrencyData(requestUrl);
+        return webClient.callExternalService(requestUrl);
     }
 }

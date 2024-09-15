@@ -22,6 +22,7 @@ public class Currency {
 
     private Long timestamp;
 
+    @Column(unique=true)
     private String baseCurrency;
 
     private LocalDate date;

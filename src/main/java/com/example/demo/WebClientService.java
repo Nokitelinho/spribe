@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -19,11 +18,10 @@ public class WebClientService {
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Retryable(
-            value = { HttpClientErrorException.class }, // Retry on server errors (5xx)
             maxAttempts = 3, // Retry up to 3 times
             backoff = @Backoff(delay = 2000) // Wait for 2 seconds between retries
     )
-    public CurrencyDTO fetchCurrencyData(String requestUrl) {
+    public CurrencyDTO callExternalService(String requestUrl) {
 
         log.info("Entering WebClientService fetchCurrencyData - {}", requestUrl);
 
