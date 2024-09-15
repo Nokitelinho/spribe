@@ -134,3 +134,67 @@ public class WebClientService {
         log.info("Entering WebClientService fetchCurrencyData - {}", requestUrl);
         .....
 ```
+
+## Caching Mechanism
+
+This project includes caching functionality using Spring's `@Cacheable` and `@CacheEvict` annotations to improve performance and reduce the number of redundant database queries.
+
+### Example Code with Caching
+
+In the `CurrencyController` class located at `com.example.demo.CurrencyController`, caching is applied to some endpoints that retrieve currency data. This allows results to be stored in a cache and reused on subsequent calls without querying the database again.
+
+#### Example:
+```java
+@RestController
+@RequestMapping("/api/v1/currency")
+public class CurrencyController {
+
+    private final CurrencyService currencyService;
+
+    public CurrencyController(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
+
+    // Cache the result of the getAllCurrencies method
+    @GetMapping("/all")
+    @Cacheable("currency")
+    public Iterable<Currency> getAllCurrencies() {
+        return currencyService.getAllCurrencies();
+    }
+
+    // Cache the result of the getExchangeRate method based on the currency code
+    @GetMapping("/rate")
+    @Cacheable("currency")
+    public List<ExchangeRate> getExchangeRate(@RequestParam(name = "currencyCode") @NotBlank String currencyCode) {
+        return currencyService.getExchangeRate(currencyCode);
+    }
+
+    // Clear the cache when a new currency is added
+    @PostMapping("/add")
+    @CacheEvict(value = "currency", allEntries = true)
+    public Currency addCurrency(@RequestBody CurrencyDTO currencyDTO) {
+        return currencyService.addCurrency(currencyDTO);
+    }
+}
+```
+
+### Explanation of Caching:
+- **@Cacheable(“currency”):** This annotation indicates that the result of the method will be cached. In the example, the getAllCurrencies() and getExchangeRate() methods are cached under the “currency” cache. When the method is called, Spring first checks if the result is already cached and returns it if available. Otherwise, the method is executed, and the result is stored in the cache.
+- **@CacheEvict(value = “currency”, allEntries = true):** This annotation is used to clear the cache when the addCurrency() method is called. It ensures that outdated data is not cached when new currency data is added.
+
+### Testing Caching with Postman
+You can use Postman to test the caching mechanism by:
+1.	Fetching All Currencies (GET): The first time you call the GET /api/v1/currency/all endpoint, it will retrieve data from the database and cache it. Subsequent calls will return the cached result.
+```bash 
+GET http://localhost:8080/api/v1/currency/all
+```
+2.	**Fetching Exchange Rate by Currency Code (GET):** This endpoint is also cached based on the currency code you provide. For example:
+```bash 
+GET http://localhost:8080/api/v1/currency/rate?currencyCode=USD
+```
+
+3.	Adding New Currency (POST): When you add a new currency using the POST /api/v1/currency/add endpoint, the cache is cleared to ensure updated data.
+
+```bash 
+POST http://localhost:8080/api/v1/currency/add
+```
