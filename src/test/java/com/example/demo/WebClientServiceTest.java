@@ -72,7 +72,7 @@ class WebClientServiceTest {
         // then
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> webClientService.callExternalService(requestUrl))
-                .withMessageContaining("An error occurred while fetching the data");
+                .withMessageContaining("RestTemplate failure");
         verify(restTemplate, times(1)).getForEntity(requestUrl, CurrencyDTO.class);
     }
 
@@ -90,7 +90,7 @@ class WebClientServiceTest {
         // then
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> webClientService.callExternalService(requestUrl))
-                .withMessageContaining("An error occurred while fetching the data");
+                .withMessageContaining("Failed to fetch data, status code: 400 BAD_REQUEST");
         verify(restTemplate, times(1)).getForEntity(requestUrl, CurrencyDTO.class);
     }
 
