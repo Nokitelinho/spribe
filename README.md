@@ -12,6 +12,7 @@ Before running the project, ensure you have the following installed:
 - Gradle
 - PostgreSQL, H2(for testing)
 - Docker
+- Postman (for API testing)
 
 ## Running the Application
 
@@ -66,4 +67,44 @@ This project uses Liquibase for managing database migrations. Migration scripts 
 ```bash 
 ./gradlew generateChangelog
 ```
+### Using Postman for API Testing
+#### Importing the Postman Collection
 
+1.	Download and install Postman.
+2. Open Postman and import the demo.postman_collection.json file provided in this repository.
+3. This collection contains requests for CRUD operations on the Currency API.
+
+#### Available Endpoints
+
+- GET All Currencies:
+- -	URL: http://localhost:8080/api/v1/currency/all
+- -	Method: GET
+- -	Description: Fetches all currency data from the system.
+- -	Response: Status 200 OK with JSON data of currencies.
+- GET Specific Currency Rate:
+- - URL: http://localhost:8080/api/v1/currency/rate?currencyCode=EUR
+- - Method: GET
+- - Description: This retrieves currency rates (currently set to fetch all, can be modified to fetch specific rates).
+- - Response: Status 200 OK with JSON data.
+- POST Add a Currency:
+- - URL: http://localhost:8080/api/v1/currency/add
+- - Method: POST
+- - Body:
+
+```json 
+{
+	"success": true,
+	"timestamp": 1519296206,
+	"base": "EUR",
+	"date": "2021-03-17",
+	"rates": {
+		"AUD": 1.566015,
+		"CAD": 1.560132,
+		"CHF": 1.154727,
+		"CNY": 7.827874,
+		"GBP": 0.882047,
+		"JPY": 132.360679,
+		"USD": 1.23396
+	}
+}
+```
