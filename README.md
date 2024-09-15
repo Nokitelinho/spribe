@@ -71,7 +71,7 @@ This project uses Liquibase for managing database migrations. Migration scripts 
 #### Importing the Postman Collection
 
 1.	Download and install Postman.
-2. Open Postman and import the demo.postman_collection.json file provided in this repository.
+2. Open Postman and import the **demo.postman_collection.json** file provided in this repository.
 3. This collection contains requests for CRUD operations on the Currency API.
 
 #### Available Endpoints
