@@ -37,7 +37,7 @@ public class WebClientService {
                 throw new RuntimeException("Failed to fetch data, status code: " + response.getStatusCode());
             }
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while fetching the data", e);
+            throw new RuntimeException(e.getMessage(), e);
         }
 
     }
