@@ -44,10 +44,26 @@ To run the tests, execute:
 ```bash 
 ./gradlew test
 ```
-## Database Configuration
+### Database Configuration
 ```yaml
 spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
 spring.datasource.username=user
 spring.datasource.password=password
 spring.datasource.driver-class-name=org.postgresql.Driver
 ```
+
+### Liquibase Database Migrations
+This project uses Liquibase for managing database migrations. Migration scripts are stored in the src/main/resources/db/changelog/ directory. You can use the following commands with Gradle to manage migrations:
+- Apply migrations:
+```bash 
+./gradlew update
+```
+- Rollback migrations (example: rollback the last migration):
+```bash 
+./gradlew rollbackCount -PliquibaseCommandValue=1
+```
+- Generate a changelog for an existing database:
+```bash 
+./gradlew generateChangelog
+```
+
