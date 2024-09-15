@@ -16,7 +16,38 @@ Before running the project, ensure you have the following installed:
 ## Running the Application
 
 1. **Clone the repository**:
-   ```bash
+```bash
    https://github.com/Nokitelinho/spribe.git
    cd spribe
+```
+2.	**Set up the database**:
+Run docker with PostgreSQL, you can start it using docker-compose:
+```bash 
+docker-compose up
+```
+3.	**Build the project**:
+To build the project using Gradle, run:
+```bash 
+./gradlew build
+```
+4.	**Run the application**:
+After building the project, you can run the application using:
+```bash 
+./gradlew bootRun
+```
+5.	**Access the application**:
+Once the application is running, you can access it at http://localhost:8080/api/v1/currency/all
+
+### Running Tests
+
+To run the tests, execute:
+```bash 
+./gradlew test
+```
+## Database Configuration
+```yaml
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.username=user
+spring.datasource.password=password
+spring.datasource.driver-class-name=org.postgresql.Driver
 ```
