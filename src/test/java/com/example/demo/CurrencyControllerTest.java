@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.controller.CurrencyController;
+import com.example.demo.domain.Currency;
+import com.example.demo.domain.ExchangeRate;
+import com.example.demo.service.CurrencyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.component.ExchangeRateRequestUrl;
+import com.example.demo.dto.CurrencyDTO;
+import com.example.demo.service.WebClientService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

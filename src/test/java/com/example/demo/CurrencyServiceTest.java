@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import com.example.demo.domain.Currency;
+import com.example.demo.dto.CurrencyDTO;
+import com.example.demo.mappers.CurrencyMapper;
+import com.example.demo.repository.CurrencyRepository;
+import com.example.demo.service.CurrencyService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

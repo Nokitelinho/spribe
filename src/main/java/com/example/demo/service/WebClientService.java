@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.service;
 
+import com.example.demo.component.ScheduledTasks;
+import com.example.demo.dto.CurrencyDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.component;
 
+import com.example.demo.service.WebClientService;
+import com.example.demo.domain.Currency;
+import com.example.demo.service.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -141,7 +141,7 @@ This project includes caching functionality using Spring's `@Cacheable` and `@Ca
 
 ### Example Code with Caching
 
-In the `CurrencyController` class located at `com.example.demo.CurrencyController`, caching is applied to some endpoints that retrieve currency data. This allows results to be stored in a cache and reused on subsequent calls without querying the database again.
+In the `CurrencyController` class located at `com.example.demo.controller.CurrencyController`, caching is applied to some endpoints that retrieve currency data. This allows results to be stored in a cache and reused on subsequent calls without querying the database again.
 
 #### Example:
 ```java

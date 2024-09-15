@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.mappers;
 
+import com.example.demo.domain.Currency;
+import com.example.demo.domain.ExchangeRate;
+import com.example.demo.dto.CurrencyDTO;
 import org.mapstruct.*;
 
 import java.util.ArrayList;

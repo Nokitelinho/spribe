@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.domain.Currency;
+import com.example.demo.domain.ExchangeRate;
+import com.example.demo.repository.CurrencyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
