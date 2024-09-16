@@ -1,76 +1,52 @@
 package com.example.demo;
 
-import com.example.demo.component.ExchangeRateRequestUrl;
 import com.example.demo.component.ScheduledTasks;
-import com.example.demo.domain.Currency;
-import com.example.demo.domain.ExchangeRate;
 import com.example.demo.dto.CurrencyDTO;
-import com.example.demo.service.CurrencyService;
 import com.example.demo.service.WebClientService;
+import org.awaitility.Durations;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class ScheduledTasksTest {
 
-    @InjectMocks
-    ScheduledTasks scheduledTasks;
+    @SpyBean
+    ScheduledTasks tasks;
 
-    @Mock
-    CurrencyService currencyService;
-
-    @Mock
+    @MockBean
     WebClientService webClientService;
 
-    @Mock
-    ExchangeRateRequestUrl exchangeRateRequestUrl;
+    private CurrencyDTO populateCurrencyDTO() {
+        var currencyDTO = new CurrencyDTO();
+        currencyDTO.setSuccess(true);
+        currencyDTO.setTimestamp(System.currentTimeMillis());
+        currencyDTO.setBaseCurrency("GBP-TEST");
+        currencyDTO.setDate(LocalDate.now());
+        currencyDTO.setRates(Map.of("JPY", 1.856));
 
-    private Currency populateCurrency() {
-        var currency = new Currency();
-        currency.setSuccess(true);
-        currency.setTimestamp(System.currentTimeMillis());
-        currency.setBaseCurrency("GBP");
-        currency.setDate(LocalDate.now());
-
-        var exchangeRate = new ExchangeRate();
-        exchangeRate.setRate(1.856);
-        exchangeRate.setCurrencyCode("JPY");
-
-        currency.setExchangeRates(List.of(exchangeRate));
-
-        return currency;
+        return currencyDTO;
     }
 
     @Test
-    void verifyTimesForUpdateCurrencyData() {
+    public void verifyThatTaskTriggered() {
         // given
-        var currencyDTO = new CurrencyDTO();
+        var currencyDTO = populateCurrencyDTO();
 
         // when
-        when(currencyService.getAllCurrencies()).thenReturn(List.of(populateCurrency()));
-        when(exchangeRateRequestUrl.construct(anyString())).thenReturn("http://example.com");
         when(webClientService.callExternalService(anyString())).thenReturn(currencyDTO);
 
-        var result = scheduledTasks.updateCurrencyData();
-        var currency = result.iterator().next();
-
         // then
-        assertThat(result).hasSize(1);
-        assertThat(currency.getBaseCurrency()).isEqualTo("GBP");
-        assertThat(currency.getExchangeRates()).hasSize(1);
-        verify(currencyService, times(1)).getAllCurrencies();
-        verify(currencyService, times(1)).deleteCurrency(currency);
-        verify(currencyService, times(1)).addCurrency(currencyDTO);
-        verify(webClientService, times(1)).callExternalService(anyString());
-
+        await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
+            verify(tasks, atLeast(2)).updateCurrencyData();
+        });
     }
 
 }

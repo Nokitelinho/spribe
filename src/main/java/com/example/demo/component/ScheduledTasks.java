@@ -1,5 +1,6 @@
 package com.example.demo.component;
 
+import com.example.demo.dto.CurrencyDTO;
 import com.example.demo.service.WebClientService;
 import com.example.demo.domain.Currency;
 import com.example.demo.service.CurrencyService;
@@ -27,15 +28,14 @@ public class ScheduledTasks {
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
-    @Scheduled(fixedRate = 1000 * 60 * 60)
+    @Scheduled(fixedRateString = "${fixedRate.in.milliseconds}")
     public Iterable<Currency> updateCurrencyData() {
         log.info("Entering ScheduledTasks - {}", "getCurrencyData");
 
         Iterable<Currency> currencyList =  currencyService.getAllCurrencies();
 
         currencyList.forEach(currency -> {
-            var requestUrl = exchangeRateRequestUrl.construct(currency.getBaseCurrency());
-            var currencyDTO = webClientService.callExternalService(requestUrl);
+            var currencyDTO = getCurrencyDTO(currency);
 
             if (Objects.nonNull(currencyDTO)) {
                 currencyService.deleteCurrency(currency);
@@ -46,5 +46,11 @@ public class ScheduledTasks {
         log.info("Exiting ScheduledTasks - {}", "getCurrencyData");
 
         return currencyList;
+    }
+
+    private CurrencyDTO getCurrencyDTO(Currency currency) {
+        var requestUrl = exchangeRateRequestUrl.construct(currency.getBaseCurrency());
+
+        return webClientService.callExternalService(requestUrl);
     }
 }

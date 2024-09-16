@@ -5,8 +5,8 @@ import com.example.demo.domain.Currency;
 import com.example.demo.domain.ExchangeRate;
 import com.example.demo.service.CurrencyService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.List;
@@ -17,10 +17,11 @@ import static org.mockito.Mockito.*;
 class CurrencyControllerTest {
 
     @SpyBean
+    private CurrencyController currencyController;
+
+    @MockBean
     private CurrencyService currencyService;
 
-    @Autowired
-    private CurrencyController currencyController;
 
     @Test
     public void testCacheableGetExchangeRate() {
