@@ -4,9 +4,9 @@ import com.example.demo.component.ExchangeRateRequestUrl;
 import com.example.demo.dto.CurrencyDTO;
 import com.example.demo.service.WebClientService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -21,13 +21,13 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class WebClientServiceTest {
 
-    @InjectMocks
+    @SpyBean
     private WebClientService webClientService;
 
-    @Mock
+    @MockBean
     private ExchangeRateRequestUrl exchangeRateRequestUrl;
 
-    @Mock
+    @MockBean
     private RestTemplate restTemplate;
 
     private final String baseCurrency = "EUR";
@@ -73,7 +73,7 @@ class WebClientServiceTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> webClientService.callExternalService(requestUrl))
                 .withMessageContaining("RestTemplate failure");
-        verify(restTemplate, times(1)).getForEntity(requestUrl, CurrencyDTO.class);
+        verify(restTemplate, times(3)).getForEntity(requestUrl, CurrencyDTO.class);
     }
 
     @Test
@@ -91,7 +91,7 @@ class WebClientServiceTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> webClientService.callExternalService(requestUrl))
                 .withMessageContaining("Failed to fetch data, status code: 400 BAD_REQUEST");
-        verify(restTemplate, times(1)).getForEntity(requestUrl, CurrencyDTO.class);
+        verify(restTemplate, times(3)).getForEntity(requestUrl, CurrencyDTO.class);
     }
 
 }

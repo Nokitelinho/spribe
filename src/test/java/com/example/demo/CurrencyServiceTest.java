@@ -6,9 +6,9 @@ import com.example.demo.mappers.CurrencyMapper;
 import com.example.demo.repository.CurrencyRepository;
 import com.example.demo.service.CurrencyService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.List;
 
@@ -20,13 +20,13 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class CurrencyServiceTest {
 
-    @Mock
+    @MockBean
     CurrencyRepository currencyRepository;
 
-    @Mock
+    @MockBean
     CurrencyMapper currencyMapper;
 
-    @InjectMocks
+    @SpyBean
     CurrencyService currencyService;
 
     @Test
