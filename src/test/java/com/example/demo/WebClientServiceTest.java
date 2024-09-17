@@ -4,7 +4,6 @@ import com.example.demo.component.ExchangeRateRequestUrl;
 import com.example.demo.dto.CurrencyDTO;
 import com.example.demo.service.WebClientService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
@@ -18,8 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-class WebClientServiceTest {
+class WebClientServiceTest extends AbstractTest {
 
     @SpyBean
     private WebClientService webClientService;

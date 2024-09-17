@@ -5,7 +5,6 @@ import com.example.demo.dto.CurrencyDTO;
 import com.example.demo.service.WebClientService;
 import org.awaitility.Durations;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
@@ -15,8 +14,7 @@ import java.util.Map;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-class ScheduledTasksTest {
+class ScheduledTasksTest extends AbstractTest {
 
     @SpyBean
     ScheduledTasks tasks;

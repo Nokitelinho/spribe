@@ -6,7 +6,6 @@ import com.example.demo.mappers.CurrencyMapper;
 import com.example.demo.repository.CurrencyRepository;
 import com.example.demo.service.CurrencyService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
@@ -17,8 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-class CurrencyServiceTest {
+class CurrencyServiceTest extends AbstractTest {
 
     @MockBean
     CurrencyRepository currencyRepository;
