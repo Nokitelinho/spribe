@@ -198,3 +198,13 @@ GET http://localhost:8080/api/v1/currency/rate?currencyCode=USD
 ```bash 
 POST http://localhost:8080/api/v1/currency/add
 ```
+
+## Swagger 3 (OpenAPI) documentation
+
+Run your Spring Boot application, then navigate to the following URL to access the Swagger UI:
+
+```bash 
+http://localhost:8080/swagger-ui/index.html
+```
+
+This will allow you to interact with your API directly through a user-friendly interface.
