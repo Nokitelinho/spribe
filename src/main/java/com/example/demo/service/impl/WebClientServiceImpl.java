@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.CurrencyDTO;
 import com.example.demo.service.WebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +21,12 @@ public class WebClientServiceImpl implements WebClientService {
             maxAttempts = 3, // Retry up to 3 times
             backoff = @Backoff(delay = 2000) // Wait for 2 seconds between retries
     )
-    public CurrencyDTO callExternalService(String requestUrl) {
+    public String callExternalService(String requestUrl) {
 
         log.info("Entering WebClientService fetchCurrencyData - {}", requestUrl);
 
         try {
-            ResponseEntity<CurrencyDTO> response = restTemplate.getForEntity(requestUrl, CurrencyDTO.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
 
             if (response.getStatusCode() == HttpStatus.OK) {
                 return response.getBody();

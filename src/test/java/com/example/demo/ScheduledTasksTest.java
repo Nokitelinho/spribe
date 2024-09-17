@@ -35,11 +35,9 @@ class ScheduledTasksTest extends AbstractTest {
 
     @Test
     public void verifyThatTaskTriggered() {
-        // given
-        var currencyDTO = populateCurrencyDTO();
 
         // when
-        when(webClientService.callExternalService(anyString())).thenReturn(currencyDTO);
+        when(webClientService.callExternalService(anyString())).thenReturn("json-string");
 
         // then
         await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {

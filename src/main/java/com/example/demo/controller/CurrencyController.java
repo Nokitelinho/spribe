@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.component.ExchangeRateRequestUrl;
 import com.example.demo.domain.Currency;
 import com.example.demo.domain.ExchangeRate;
-import com.example.demo.dto.CurrencyDTO;
 import com.example.demo.service.CurrencyService;
 import com.example.demo.service.WebClientService;
 import jakarta.validation.constraints.NotBlank;
@@ -40,12 +39,12 @@ public class CurrencyController {
 
     @PostMapping("/add")
     @CacheEvict(value = "currency", allEntries = true)
-    public Currency addCurrency(@RequestBody CurrencyDTO currencyDTO) {
-        return currencyService.addCurrency(currencyDTO);
+    public Currency addCurrency(@RequestBody @NotBlank String jsonData) {
+        return currencyService.addCurrency(jsonData);
     }
 
     @GetMapping("/external")
-    public CurrencyDTO getExternalData(
+    public String getExternalData(
             @RequestParam(name = "currencyCode") @NotBlank String currencyCode
     ) {
         var requestUrl = exchangeRateRequestUrl.construct(currencyCode);

@@ -1,18 +1,17 @@
 package com.example.demo.component;
 
-import com.example.demo.dto.CurrencyDTO;
-import com.example.demo.service.WebClientService;
 import com.example.demo.domain.Currency;
 import com.example.demo.service.CurrencyService;
+import com.example.demo.service.WebClientService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ScheduledTasks {
@@ -26,29 +25,26 @@ public class ScheduledTasks {
     private final WebClientService webClientService;
     private final ExchangeRateRequestUrl exchangeRateRequestUrl;
 
-    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
-
     @Scheduled(fixedRateString = "${fixedRate.in.milliseconds}")
-    public Iterable<Currency> updateCurrencyData() {
+    public void updateCurrencyData() {
         log.info("Entering ScheduledTasks - {}", "getCurrencyData");
 
         Iterable<Currency> currencyList =  currencyService.getAllCurrencies();
 
         currencyList.forEach(currency -> {
-            var currencyDTO = getCurrencyDTO(currency);
+            var jsonData = getCurrencyData(currency);
 
-            if (Objects.nonNull(currencyDTO)) {
+            if (Objects.nonNull(jsonData)) {
                 currencyService.deleteCurrency(currency);
-                currencyService.addCurrency(currencyDTO);
+                currencyService.addCurrency(jsonData);
             }
         });
 
         log.info("Exiting ScheduledTasks - {}", "getCurrencyData");
 
-        return currencyList;
     }
 
-    private CurrencyDTO getCurrencyDTO(Currency currency) {
+    private String getCurrencyData(Currency currency) {
         var requestUrl = exchangeRateRequestUrl.construct(currency.getBaseCurrency());
 
         return webClientService.callExternalService(requestUrl);
